@@ -1,21 +1,14 @@
 package io.github.dougllasfps.imageliteapi;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import io.github.dougllasfps.imageliteapi.entity.Image;
-import io.github.dougllasfps.imageliteapi.enums.ImageExtension;
-import io.github.dougllasfps.imageliteapi.repository.ImageRepository;
 
 @SpringBootApplication
 @EnableJpaAuditing
 public class ImageliteapiApplication {
 	
-	@Bean
+	/*@Bean
 	public CommandLineRunner commandLineRunner(@Autowired ImageRepository repository) {
 		return args -> {
 			Image image = Image
@@ -27,7 +20,7 @@ public class ImageliteapiApplication {
 					.build();
 			repository.save(image);
 		};
-	}
+	}*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(ImageliteapiApplication.class, args);
