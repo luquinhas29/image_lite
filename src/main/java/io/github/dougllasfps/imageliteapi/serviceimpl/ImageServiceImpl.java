@@ -1,5 +1,7 @@
 package io.github.dougllasfps.imageliteapi.serviceimpl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,11 @@ public class ImageServiceImpl implements ImageService {
 		@Transactional
 		public Image save(Image image) {
 			return repository.save(image);
+		}
+		
+		@Override
+		public Optional<Image> getById(String id){
+			return repository.findById(id);
 		}
 	
 }
