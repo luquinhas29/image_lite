@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.github.dougllasfps.imageliteapi.dto.ImageDTO;
 import io.github.dougllasfps.imageliteapi.entity.Image;
 import io.github.dougllasfps.imageliteapi.enums.ImageExtension;
 
@@ -21,6 +22,16 @@ public class ImageMapper {
 				.size(file.getSize())
 				.extension(ImageExtension.valueOf(MediaType.valueOf(file.getContentType())))
 				.file(file.getBytes())
+				.build();
+	}
+	
+	public ImageDTO imageDTO(Image image, String url) {
+		return ImageDTO.builder()
+				.url(url)
+				.extension(image.getExtension().name())
+				.name(image.getName())
+				.size(image.getSize())
+				.uploadDate(image.getUploadDate().toLocalDate())
 				.build();
 	}
 
