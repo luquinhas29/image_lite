@@ -1,11 +1,13 @@
 package io.github.dougllasfps.imageliteapi.serviceimpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.dougllasfps.imageliteapi.entity.Image;
+import io.github.dougllasfps.imageliteapi.enums.ImageExtension;
 import io.github.dougllasfps.imageliteapi.repository.ImageRepository;
 import io.github.dougllasfps.imageliteapi.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,11 @@ public class ImageServiceImpl implements ImageService {
 		@Override
 		public Optional<Image> getById(String id){
 			return repository.findById(id);
+		}
+
+		@Override
+		public List<Image> search(ImageExtension extension, String query) {
+			return repository.findByExtensionAndNameOrTagsLike(extension, query);
 		}
 	
 }

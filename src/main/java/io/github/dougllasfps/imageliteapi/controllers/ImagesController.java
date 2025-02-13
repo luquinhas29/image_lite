@@ -3,6 +3,7 @@ package io.github.dougllasfps.imageliteapi.controllers;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.dougllasfps.imageliteapi.ImageMapper;
+import io.github.dougllasfps.imageliteapi.dto.ImageDTO;
 import io.github.dougllasfps.imageliteapi.entity.Image;
+import io.github.dougllasfps.imageliteapi.enums.ImageExtension;
 import io.github.dougllasfps.imageliteapi.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,9 +72,27 @@ public class ImagesController {
 		return new ResponseEntity<>(image.getFile(), headers, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping
+	public ResponseEntity<List<ImageDTO>> search(
+			@RequestParam(value = "extension", required = false, defaultValue = "") String extension,
+			@RequestParam(value = "query", required = false) String query){
+		
+			var result = service.search(ImageExtension.ofName(extension), query);
+			
+			var images = result.stream().map(image -> {
+				var url = buildImageURL(image);
+				return mapper.imageDTO(image, url.toString());
+			}).collect(Collectors.toList());
+			
+			return ResponseEntity.ok(images);
+	}
 
 	private URI buildImageURL(Image image) {
 		String imagePath = "/" + image.getId();
-		return ServletUriComponentsBuilder.fromCurrentRequest().path(imagePath).build().toUri();
+		return ServletUriComponentsBuilder
+				.fromCurrentRequestUri()
+				.path(imagePath)
+				.build().toUri();
 	}
 }
